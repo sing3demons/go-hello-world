@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: server-deployment
+  namespace: go-hello-world
 spec:
   replicas: 3
   selector:
@@ -16,9 +17,29 @@ spec:
       containers:
       - name: server
         image: sing3demons/go-hello-world:0.1
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+        livenessProbe:
+          exec:
+            command:
+              - cat
+              - /tmp/live
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          failureThreshold: 5
         resources:
+          requests:
+            memory: 500Mi
+            cpu: 200m
           limits:
-            memory: "128Mi"
+            memory: "1Gi"
             cpu: "500m"
         ports:
         - containerPort: 8080
