@@ -1,26 +1,8 @@
 1. ## Run command
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/aws/deploy.yaml
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/aws/deploy.yaml
    ```
-    namespace/ingress-nginx created
-    serviceaccount/ingress-nginx created
-    configmap/ingress-nginx-controller created
-    clusterrole.rbac.authorization.k8s.io/ingress-nginx unchanged
-    clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx unchanged
-    role.rbac.authorization.k8s.io/ingress-nginx created
-    rolebinding.rbac.authorization.k8s.io/ingress-nginx created
-    service/ingress-nginx-controller-admission created
-    service/ingress-nginx-controller created
-    deployment.apps/ingress-nginx-controller created
-    ingressclass.networking.k8s.io/nginx unchanged
-    validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission configured
-    serviceaccount/ingress-nginx-admission created
-    clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission unchanged
-    clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission unchanged
-    role.rbac.authorization.k8s.io/ingress-nginx-admission created
-    rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
-    job.batch/ingress-nginx-admission-create created
-    job.batch/ingress-nginx-admission-patch created
+    namespace/ingress-nginx created...
 
 2. Run command to create namespace
    ```
