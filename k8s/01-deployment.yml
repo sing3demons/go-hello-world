@@ -4,7 +4,7 @@ metadata:
   name: go-server
   namespace: go-hello-world
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: server
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: sing3demons/go-hello-world:0.1
+        image: sing3demons/go-hello-world:0.2
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
@@ -33,7 +33,11 @@ spec:
               - /tmp/live
           initialDelaySeconds: 5
           periodSeconds: 30
+          timeoutSeconds: 30
           failureThreshold: 5
+        env:
+          - name: PORT
+            value: "8080"
         resources:
           requests:
             memory: 500Mi

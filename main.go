@@ -13,12 +13,22 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/joho/godotenv"
 )
 
 var (
 	buildcommit = "dev"
 	buildtime   = time.Now().String()
 )
+
+func init() {
+	if os.Getenv("APP_ENV") != "production" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Println("Error loading .env file")
+		}
+	}
+}
 
 func main() {
 	_, err := os.Create("/tmp/live")
@@ -49,7 +59,7 @@ func main() {
 	defer stop()
 
 	go func() {
-		if err := app.Listen(":8080"); err != nil {
+		if err := app.Listen(":" + os.Getenv("PORT")); err != nil {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
