@@ -19,5 +19,6 @@
 # vendor/
 
 # Go workspace file
+.dockerignore
 go.work
 .env

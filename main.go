@@ -14,6 +14,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 var (
@@ -30,12 +34,51 @@ func init() {
 	}
 }
 
+func InitDB() *mongo.Database {
+
+	uri := os.Getenv("MONGODB")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+	if err != nil {
+		panic(err)
+	}
+
+	if err := client.Ping(ctx, readpref.Primary()); err != nil {
+		panic(err)
+	}
+	fmt.Println("Connected to MongoDB!")
+
+	db := client.Database("go-product")
+
+	return db
+}
+
+type Todo struct {
+	Name string `bson:"name"`
+}
+
 func main() {
 	_, err := os.Create("/tmp/live")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer os.Remove("/tmp/live")
+
+	db := InitDB()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	todo := Todo{
+		Name: "sing",
+	}
+
+	col := db.Collection("todos")
+	col.InsertOne(ctx, todo)
+
+	fmt.Println(todo)
 
 	app := fiber.New()
 	app.Use(recover.New())
@@ -49,10 +92,12 @@ func main() {
 		})
 	})
 	// Readiness Probe
+	app.Get("/healthz", func(c *fiber.Ctx) error { return c.SendStatus(fiber.StatusOK) })
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON("hello, world!")
 	})
-	app.Get("/healthz", func(c *fiber.Ctx) error { return c.SendStatus(fiber.StatusOK) })
+	app.Get("/db", insertTodos)
 
 	//Graceful Shutdown
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
@@ -72,4 +117,15 @@ func main() {
 	if err := app.Shutdown(); err != nil {
 		fmt.Println(err)
 	}
+}
+
+func insertTodos(c *fiber.Ctx) error {
+	db := InitDB()
+	col := db.Collection("todos")
+
+	var todo []Todo
+	cursor, _ := col.Find(context.Background(), bson.M{})
+	defer cursor.Close(context.Background())
+	cursor.All(context.Background(), &todo)
+	return c.Status(fiber.StatusOK).JSON(todo)
 }

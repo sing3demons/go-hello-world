@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: sing3demons/go-hello-world:0.2
+        image: sing3demons/go-hello-world:0.3.1
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
@@ -38,6 +38,8 @@ spec:
         env:
           - name: PORT
             value: "8080"
+          - name: MONGODB
+            value: mongodb://adminuser:password123@mongo-nodeport-svc.database
         resources:
           requests:
             memory: 500Mi
