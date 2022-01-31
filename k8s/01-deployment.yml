@@ -39,7 +39,7 @@ spec:
           - name: PORT
             value: "8080"
           - name: MONGODB
-            value: mongodb://adminuser:password123@mongo-nodeport-svc.database
+            value: mongodb://adminuser:password123@mongo-service.database
         resources:
           requests:
             memory: 500Mi

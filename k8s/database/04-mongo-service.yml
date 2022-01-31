@@ -3,7 +3,8 @@ kind: Service
 metadata:
   labels:
     app: mongo
-  name: mongo-nodeport-svc
+  name: mongo-
+  
   namespace: database
 spec:
   ports:
