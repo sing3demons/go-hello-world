@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: sing3demons/go-hello-world:0.3.1
+        image: sing3demons/go-hello-world:0.3.2
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
