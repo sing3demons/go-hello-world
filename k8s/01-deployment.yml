@@ -39,7 +39,11 @@ spec:
           - name: PORT
             value: "8080"
           - name: MONGODB
-            value: mongodb://adminuser:password123@mongo-service.database
+            # value: mongodb://adminuser:password123@mongo-service.database
+            valueFrom:
+              secretKeyRef:
+                name: go-secret
+                key: dbhost
         resources:
           requests:
             memory: 500Mi

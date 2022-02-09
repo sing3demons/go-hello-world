@@ -3,8 +3,7 @@ kind: Service
 metadata:
   labels:
     app: mongo
-  name: mongo-
-  
+  name: mongo-service
   namespace: database
 spec:
   ports:
