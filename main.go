@@ -14,6 +14,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
+	"github.com/sing3demons/hello-world/database"
 	"github.com/sing3demons/hello-world/routes"
 )
 
@@ -37,6 +38,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer os.Remove("/tmp/live")
+
+	database.InitDB()
 
 	app := fiber.New()
 	app.Use(recover.New())

@@ -8,7 +8,7 @@ import (
 )
 
 func Serve(app *fiber.App) {
-	db := database.InitDB()
+	db := database.GetDB()
 	v1 := app.Group("/api")
 
 	todoGroup := v1.Group("/todo")

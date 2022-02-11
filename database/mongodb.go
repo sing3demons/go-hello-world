@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-func InitDB() *mongo.Database {
+func InitMongoDB() *mongo.Database {
 
 	uri := os.Getenv("MONGODB")
 

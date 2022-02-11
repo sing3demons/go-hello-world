@@ -6,3 +6,6 @@ services:
       ports:
         - 27017:27017
       restart: unless-stopped
+      environment:
+       - MONGO_INITDB_ROOT_USERNAME=${MDB_USERNAME}
+       - MONGO_INITDB_ROOT_PASSWORD=${MDB_PASSWORD}

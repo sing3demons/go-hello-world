@@ -1,16 +1,12 @@
 package repository
 
 import (
-	"context"
-	"time"
-
 	"github.com/sing3demons/hello-world/model"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"gorm.io/gorm"
 )
 
 type todoRepository struct {
-	db *mongo.Database
+	db *gorm.DB
 }
 
 type TodoRepository interface {
@@ -18,41 +14,23 @@ type TodoRepository interface {
 	FindAll() ([]model.Todo, error)
 }
 
-func NewTodoRepository(db *mongo.Database) TodoRepository {
+func NewTodoRepository(db *gorm.DB) TodoRepository {
 	return &todoRepository{
 		db: db,
 	}
 }
 
-func (tx *todoRepository) collection() *mongo.Collection {
-	return tx.db.Collection("todos")
-}
-
-func (tx *todoRepository) FindAll() ([]model.Todo, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	cursor, err := tx.collection().Find(ctx, bson.M{})
-	if err != nil {
-		return nil, err
-	}
-
-	defer cursor.Close(ctx)
-
-	var todo []model.Todo
-	if err := cursor.All(ctx, &todo); err != nil {
-		return nil, err
-	}
-
-	return todo, nil
-}
-
 func (tx *todoRepository) Create(todo model.Todo) (*model.Todo, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	result, err := tx.collection().InsertOne(ctx, todo)
-	if err != nil || result == nil {
+	if err := tx.db.Create(&todo).Error; err != nil {
 		return nil, err
 	}
-	return &todo, nil
+	return &todo,nil
+}
+func (tx *todoRepository) FindAll() ([]model.Todo, error){
+	todos := []model.Todo{}
+	if err:=tx.db.Find(&todos).Error;err!=nil{
+		return nil,err
+	}
+
+	return todos,nil
 }
