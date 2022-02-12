@@ -22,3 +22,4 @@
 .dockerignore
 go.work
 .env
+_data
