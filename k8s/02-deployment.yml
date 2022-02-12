@@ -53,11 +53,11 @@ spec:
           - name: APP_ENV
             value: production
         resources:
-          requests:
-            memory: 500Mi
-            cpu: 200m
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
+          # requests:
+          #   memory: 500Mi
+          #   cpu: 200m
+          # limits:
+          #   memory: "1Gi"
+          #   cpu: "500m"
         ports:
         - containerPort: 8080

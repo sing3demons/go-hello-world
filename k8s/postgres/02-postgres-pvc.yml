@@ -7,7 +7,7 @@ metadata:
     type: local
     app: postgres
 spec:
-  storageClassName: manual                    # Storage class. A PV Claim requesting the same storageClass can be bound to this volume.
+  # storageClassName: manual                    # Storage class. A PV Claim requesting the same storageClass can be bound to this volume.
   capacity:
     storage: 5Gi
   accessModes:
@@ -24,7 +24,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  storageClassName: manual 
+  # storageClassName: manual 
   resources:
     requests:
       storage: 5Gi

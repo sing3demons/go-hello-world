@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 services:
     mongodb:
       image : mongo
@@ -9,3 +9,19 @@ services:
       environment:
        - MONGO_INITDB_ROOT_USERNAME=${MDB_USERNAME}
        - MONGO_INITDB_ROOT_PASSWORD=${MDB_PASSWORD}
+    db:
+      container_name: postgres
+      image: postgres:14.1
+      environment:
+        POSTGRES_DB: postgresdb
+        POSTGRES_USER: postgresadmin
+        POSTGRES_PASSWORD: admin123
+      restart: always
+      ports:
+        - 5432:5432
+      volumes:
+        - ./_data:/var/lib/postgresql/data
+    # kibana:
+    #   image: kibana:5.0
+    #   ports:
+    #     - 5601:5601
