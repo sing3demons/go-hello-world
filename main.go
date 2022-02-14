@@ -46,6 +46,9 @@ func main() {
 
 	app.Get("/dashboard", monitor.New())
 	app.Use(logger.New(logger.ConfigDefault))
+
+	app.Static("/", "./wwwroot")
+
 	app.Get("/x", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
 			"buildcommit": buildcommit,
@@ -55,9 +58,9 @@ func main() {
 	// Readiness Probe
 	app.Get("/healthz", func(c *fiber.Ctx) error { return c.SendStatus(fiber.StatusOK) })
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON("hello, world!")
-	})
+	// app.Get("/", func(c *fiber.Ctx) error {
+	// 	return c.Status(fiber.StatusOK).JSON("hello, world!")
+	// })
 
 	routes.Serve(app)
 

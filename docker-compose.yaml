@@ -21,7 +21,3 @@ services:
         - 5432:5432
       volumes:
         - ./_data:/var/lib/postgresql/data
-    # kibana:
-    #   image: kibana:5.0
-    #   ports:
-    #     - 5601:5601
