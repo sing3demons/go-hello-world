@@ -18,7 +18,7 @@ func InitDB() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	database.Migrator().DropTable(&model.Todo{})
+	// database.Migrator().DropTable(&model.Todo{})
 	database.AutoMigrate(&model.Todo{})
 
 	db = database

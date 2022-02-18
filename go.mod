@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/gofiber/fiber/v2 v2.24.0
+	github.com/jinzhu/copier v0.3.5
 	github.com/joho/godotenv v1.4.0
 )
 

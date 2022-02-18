@@ -4,5 +4,6 @@ import "gorm.io/gorm"
 
 type Todo struct {
 	gorm.Model
-	Name string `bson:"name" json:"name"`
+	Name  string `gorm:"not null"`
+	Image string
 }

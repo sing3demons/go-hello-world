@@ -8,6 +8,10 @@ create-database:
 run:
 	kubectl apply -f k8s/00-namespace.yml 
 	kubectl apply -f k8s/01-secret.yml 
-	kubectl apply -f k8s/02-deployment.yml 
+	kubectl apply -f k8s/02-pvc.yml  
+	kubectl apply -f k8s/03-deployment.yml 
 	kubectl apply -f k8s/03-service.yml 
 	kubectl apply -f k8s/04-ingress.yml
+
+image:	
+		docker build -t sing3demons/go-hello-world:0.3.5 .

@@ -61,3 +61,10 @@ spec:
           #   cpu: "500m"
         ports:
         - containerPort: 8080
+        volumeMounts:
+            - mountPath: /uploads
+              name: go-hello-world
+      volumes:
+        - name: go-hello-world
+          persistentVolumeClaim:
+            claimName: app-pvc 

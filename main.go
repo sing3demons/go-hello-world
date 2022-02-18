@@ -48,6 +48,7 @@ func main() {
 	app.Use(logger.New(logger.ConfigDefault))
 
 	app.Static("/", "./wwwroot")
+	app.Static("/uploads", "./uploads")
 
 	app.Get("/x", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
@@ -61,6 +62,11 @@ func main() {
 	// app.Get("/", func(c *fiber.Ctx) error {
 	// 	return c.Status(fiber.StatusOK).JSON("hello, world!")
 	// })
+
+	uploadDirs := [...]string{"todo"}
+	for _, dir := range uploadDirs {
+		os.MkdirAll("uploads"+"/"+dir, 0755)
+	}
 
 	routes.Serve(app)
 
