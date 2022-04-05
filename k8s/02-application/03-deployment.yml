@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: sing3demons/go-hello-world:0.3.5
+        image: sing3demons/go-hello-world:0.3.6
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
@@ -40,10 +40,6 @@ spec:
             value: "8080"
           - name: MONGODB
             value: mongodb://adminuser:password123@mongo-service.database
-            # valueFrom:
-            #   secretKeyRef:
-            #     name: go-secret
-            #     key: dbhost
           - name: DSN
             # value: host=pg-service.database user=postgresadmin password=admin123 dbname=postgresdb port=5432 sslmode=disable TimeZone=Asia/Bangkok
             valueFrom:
@@ -52,13 +48,10 @@ spec:
                 name: go-secret
           - name: APP_ENV
             value: production
-        resources:
-          # requests:
-          #   memory: 500Mi
-          #   cpu: 200m
-          # limits:
-          #   memory: "1Gi"
-          #   cpu: "500m"
+          - name: REDIS_HOST
+            value: redis-client.redis
+          - name: REDIS_PORT
+            value: "6379"
         ports:
         - containerPort: 8080
         volumeMounts:

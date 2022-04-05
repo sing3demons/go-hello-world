@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:6.2.6-alpine
+        resources:
+          limits:
+            # memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 6373
+        env:
+          - name: ALLOW_EMPTY_PASSWORD
+            value: "yes"
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+          periodSeconds: 300
+        readinessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 30
+            failureThreshold: 5  
