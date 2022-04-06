@@ -9,7 +9,7 @@ metadata:
     name: myingress
 spec:
   rules:
-  - host: kubernetes.docker.internal
+  - host: sing3demons.dev
     http:
       paths:
       - pathType: Prefix
